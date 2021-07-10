@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  server:
+    image: java:8
+    container_name: test-deploy-febs
+    volumes:
+      - /data/test-deploy-jar/test.jar:/test.jar
+      - /data/test-deploy-jar/logs:/logs
+      - /etc/localtime:/etc/localtime
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - "8080:8080"
+    entrypoint: java -server -Xms256m -Xmx256m -jar -Dserver.port=9527 -Dspring.profiles.active=local febs.jar
