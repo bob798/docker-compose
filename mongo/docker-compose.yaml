@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  mongo:
+    image: mongo:5
+    container_name: mongo
+    restart: always
+    networks:
+      - liboboa
+    environment:
+      TZ: Asia/Shanghai
+      MONGO_INITDB_ROOT_USERNAME:
+      MONGO_INITDB_ROOT_PASSWORD:
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - data:/data
+    ports:
+      - "127.0.0.1:27017:27017"
+networks:
+  liboboa:
+    name: liboboa
+volumes:
+  data:

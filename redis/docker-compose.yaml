@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  redis:
+    image: redis:6-alpine
+    container_name: redis
+    restart: always
+    networks:
+      - liboboa
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - data:/data
+    ports:
+      - "127.0.0.1:6379:6379"
+    command: ["redis-server","--appendonly","yes"]
+networks:
+  liboboa:
+    name: liboboa
+volumes:
+  data:

@@ -1,0 +1,30 @@
+(CORS) {
+        @origin header Origin {args.0}
+        header @origin Access-Control-Allow-Origin "{args.0}"
+        header @origin Access-Control-Allow-Methods "OPTIONS,HEAD,GET,POST,PUT,PATCH,DELETE"
+}
+
+:8300 {
+encode zstd gzip
+# 优先处理后端请求
+  handle_path /stage-api/* {
+        import CORS
+        uri strip_prefix /stage-api
+        # 需要代理到的IP以及端口号
+        reverse_proxy ruoyi-admin:8080
+    }
+  handle {
+        root * /data/dist
+        # Vue Router history模式，避免刷新后404页面；字符中间不可有空格
+        try_files {path}.html {path} /index.html
+        file_server
+  }
+
+ log {
+        format formatted "[{ts}] {request>remote_addr} {request>proto} {request>method} <- {status} -> {request>host} {request>uri} {request>headers>User-Agent>[0]}"  {
+            time_format "iso8601"
+        }
+        output file "/dev/stdout"
+    }
+
+}

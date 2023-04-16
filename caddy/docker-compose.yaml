@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  caddy:
+    image: mritd/caddy
+    container_name: caddy
+    restart: always
+    networks:
+      - liboboa
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./conf:/etc/caddy
+      - config:/config
+      - data:/data
+    ports:
+      - "80:80"
+      - "8300:8300"
+      - "443:443"
+      - "443:443/udp"
+networks:
+  liboboa:
+    name: liboboa
+volumes:
+  config:
+  data:
