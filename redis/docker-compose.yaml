@@ -17,5 +17,6 @@ services:
 networks:
   liboboa:
     name: liboboa
+    external: true
 volumes:
   data:
