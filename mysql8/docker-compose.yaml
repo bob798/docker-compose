@@ -12,6 +12,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - data:/var/lib/mysql
+      #- ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "127.0.0.1:3306:3306"
 #   sql_mode 去除 only_full_group_by
